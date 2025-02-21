@@ -150,9 +150,9 @@
              is positive for $y_1 = y_2 = 1$,
              $x_2 = 1$ and $x_1$ large enough.
              On the other hand,
-             it is negativve for $y_1 = y_2 = 1$,
+             it is negative for $y_1 = y_2 = 1$,
              $x_2 = 1$ and $0 < x_1 < \varepsilon$ 
-             for $ small enough$.
+             for small enough.
              This entails that $\Hess_{f} \not \succeq 0 $
              and $\Hess_{f} \not \preceq 0$.
              Therefore $f$ is not
@@ -368,7 +368,7 @@
            We have:
            \begin{equation*}
                h'_{i} \left(u\right) = 0 \Longleftrightarrow 
-               -1 \frac{1}{\alpha} \left(x_{i} - u\right)=0
+               -1 + \frac{1}{\alpha} \left(x_{i} - u\right)=0
                \Longleftrightarrow u = x_{i} + \alpha.
            \end{equation*}
            Which requires $x_{i} + \alpha < 0$, i.e.
@@ -420,7 +420,7 @@
            \end{equation*}
            Finally we notice that since
            $f$ is continuous and $\dom\left(f\right) = \mathbb{R}^{n}$
-           is closed.
+           is closed, $f$ is a closed function.
            Moreover, since
            all the $m_{i}$s are convex,
            $f$ is also convex.
@@ -530,7 +530,7 @@
            We have the desired result.
        \item To keep notation consistent, we denote
            by $\mathbf{w}^{\left(i\right)}$ what is
-           denote $w_{i}$ in
+           denoted $w_{i}$ in
            the homework text. The
            $j$-th coordinate of $\mathbf{w}^{\left(i\right)}$ 
            will be denoted $\mathbf{w}^{\left(i\right)}_{j}$.
@@ -698,7 +698,7 @@
            \begin{equation*}
                \min_{X \in \mathbb{S}^{n}}
                \max_{\substack{
-               lb \in \mathbb{R}^{m} \\
+               \lambda \in \mathbb{R}^{m} \\
                S \succeq 0
                }}
                \Tr\left(A_0X\right) +
@@ -749,9 +749,9 @@
            we have
            \begin{equation*}
                \frac{\partial \Tr\left(A_0X\right)}{\partial X} + 
-               \sum_{i = 1}^{m} \frac{\partial \left(\Tr\left(A_{i}X\right) - b_{i}\right)}{\partial X} +
+               \sum_{i = 1}^{m} \frac{\partial \left(\Tr\left(A_{i}X\right) - b_{i}\right)}{\partial X} -
                \frac{\partial \Tr\left(S_{*}X\right)}{\partial X}
-               = A_{0}^{t} + \sum_{i = 1}^{m}\lambda_{i} A_{i}^{t} + S_{*}^{t} = 0,
+               = A_{0}^{t} + \sum_{i = 1}^{m}\lambda_{i} A_{i}^{t} - S_{*}^{t} = 0,
            \end{equation*}
            which yields the first order condition.
            Since our original problem is convex,
@@ -775,7 +775,7 @@
            we have $p^{*} \leq q^{*}$.
            Since minimizing the objective function 
            of the reformulated problem yields
-           optimal $s_{i}^{*} = \max\left\{0, 1 - y_{i} \mathbf{x}_{i}^{t} \mathbf{w}\right\}$,
+           optimal $s_{i}^{*} = \max\left\{0, 1 - y_{i} \mathbf{x}_{i}^{t} \mathbf{w}^{*}\right\}$,
            we get that $q^{*} \leq p^{*}$.
            Therefore the two formulations are equivalent.
 
@@ -831,13 +831,18 @@
 
 
 
-       \item We first prove that one iteration
-           of the randomized coordinate ascent
-           algorithm (RCA) optimizes one
+       \item From now on, we will refer to the
+           Projected Gradient Ascent algorithm
+           as PGA and to the Randomized 
+           Coordinate Ascent algorithm
+           as RCA.
+
+           We first prove that one iteration
+           of (RCA) optimizes one
            dimension of $\lambda$ at a time.
            We first notice that we keep
            thoughout the algorithm the
-           invariant $\mathbf{w} = X \lambda$,
+           invariant $\mathbf{w}^{\left(k\right)} = X \lambda^{\left(k\right)}$,
            required for optimality of the primal variable.
            One iteration step
            consists in performing
@@ -871,13 +876,13 @@
            Now, let us look at the performances of 
            these algorithms. One can look
            at and reproduce our same simulations
-           at \todo{addgit}.
+           at \url{https://github.com/vincenzo-politelli/CVX}.
            We tested the algorithms on the
            LIBSVM datasets ``sonar'' (208 samples 
            and 60 features).
            and ``mushrooms'' (8124 samples and
            112 features).
-           For a value of $alpha = 1$
+           For a value of $\alpha = 1$
            and a maximum number of iterations
            of $200$. We look at the primal-dual
            gap agains the number of
@@ -910,7 +915,7 @@
            In the case of the ``sonar'' dataset,
            for PGA, the final primal-dual gap is
            of $1.7312$; while in the case of
-           $RCA$ such value amounts to
+           RCA such value amounts to
            $1.2373$.
            In the case of the ``mushrooms''
            dataset, the primal-dual gap 
@@ -919,7 +924,7 @@
            $8.8974$. Thus, overall,
            RCA seems to be slightly more precise.
            We can see that the fact that 
-           in RCA, we do not take into account
+           in RCA we do not take into account
            all the information about
            the gradient makes the convergence
            less smooth but still precise.
@@ -930,7 +935,7 @@
            run, while RCA takes $0.0063$ s.
            In the case of the ``mushrooms''
            dataset, PGA takes $81.541$ s to 
-           complete, while $RCA$ only $0.1542$ s.
+           complete, while RCA takes only $0.1542$ s.
            We evince that the fact that
            RCA does not compute the whole
            gradient makes it much faster
@@ -941,6 +946,7 @@
            perform very well, the two
            dataset yielding $0$ misclassified
            samples only after the first few iterations.
+           \newpage
 
            \begin{figure}[h!]
                 \centering
@@ -959,7 +965,7 @@
                     a maximum number of iterations of $200$}
                     \label{miss_mushrooms}
                 \end{subfigure}
-                \label{fig:pd}
+                \label{fig:miss}
            \end{figure}
 
        \item Consider the LP problem
@@ -968,7 +974,7 @@
                \mathbf{v} \in \mathbb{R}^{m}}} \quad & 
                \sum_{i = 1}^{n}u_{i} + \alpha \sum_{i = 1}^{m}v_{i} \\
                \text{subject to} \quad & \mathbf{u} \geq \mathbf{w} \text{  and  } \mathbf{u} \geq -\mathbf{w}, \\
-                                       & \mathbf{v} \geq \mathbbm{0}_{n} \text{  and  } \mathbf{v} \geq \mathbbm{1}_{n} - 
+                                       & \mathbf{v} \geq \mathbf{0}_{n} \text{  and  } \mathbf{v} \geq \mathbf{1}_{n} - 
                                 X^{t}\mathbf{w}.
            \end{align*}
            Let $p^{*}$ be the optimal solution
@@ -982,12 +988,12 @@
            Moreover, since $w_{i} \geq \left|w_{i}\right|$
            and $v_{i} \geq \max \left\{0, 1 - y_{i}\mathbf{x}_{i}^{t}\mathbf{w}\right\}$,
            minimizing with respect to $\mathbf{w}, \mathbf{u}, \mathbf{v}$
-           requires to choose $u_{i}^{*} = \left|w_{i}\right|$ 
-           and $v_{i} = \max \left\{0, 1 - y_{i}\mathbf{x}_{i}^{t} \mathbf{w}\right\}$.
+           requires to choose $u_{i}^{*} = \left|w_{i}^{*}\right|$ 
+           and $v_{i} = \max \left\{0, 1 - y_{i}\mathbf{x}_{i}^{t} \mathbf{w}^{*}\right\}$.
            Thus, $q^{*} \leq p^{*}$ and the two
            problems are equivalent.
            
-           One can find on \todo{addgit}
+           One can find on \url{https://github.com/vincenzo-politelli/CVX}
            the code that we use to solve this linear
            optimization problem. We have different
            values for the vector $\mathbf{w}$ (as 
@@ -1004,8 +1010,8 @@
        \item We make the preliminary remark that
            feasible solutions to the above LP
            problem aways exist. Indeed
-           if suffices to take $\mathbf{w} = \mathbbm{1}_{n}$,
-           $\mathbf{u} = \mathbbm{0}$ and
+           if suffices to take $\mathbf{w} = \mathbf{1}_{n}$,
+           $\mathbf{u} = \mathbf{0}_{n}$ and
            $v_{i} > \max\left\{0, 1 - y_{i}\mathbf{x}_{i}^{t}\mathbf{w}\right\}$ 
            for all $i$.
            Let $\mathbf{x}$ denote the concatenation
@@ -1021,8 +1027,8 @@
            we have the equivalent reformulation
            of the above LP problem.
            \begin{align*}
-               \min_{\mathbf{x}} \quad & \mathbf{c}^{t}\mathbf{x},
-               \text{subject to} \quad & A \mathbf{x} \leq 0. 
+               \min_{\mathbf{x}} \quad & \mathbf{c}^{t}\mathbf{x} \\
+               \text{subject to} \quad & A \mathbf{x} \leq 0 
            \end{align*}
            Let $A_{i}$ be the $i$-th row of
            $A$ and let $m'$ be the number of
@@ -1037,8 +1043,9 @@
                - \sum_{i = 1}^{m'} \log \left(A_{i}^{t}\mathbf{x}\right).
            \end{equation*}
            As seen in the course, we propose
-           the following interior-point scheme.
+           the following interior-point scheme (Algorithm \ref{algo}).
            \begin{algorithm}
+               \ref{algo}
                \caption{Interior-point method algorithm}
                \KwIn{A strictly feasible solution
                $\mathbf{x}$, $t = t_{0}>0$,
@@ -1068,7 +1075,7 @@
            \nabla \varphi_{t}\left(\mathbf{x}\right)$,
            and requires $\mathcal{O} \left(\left(n'\right)^{3}\right)$
            time.
-           So, one iteration of our interior-point method
+           So, for $\mu = 1 + 1/\sqrt{m'}$, one iteration of our interior-point method
            algorithm takes time
            $m'\left(\frac{1}{\sqrt{m'}} - \log\left(1 + \frac{1}{\sqrt{m'}}\right)\right)
            \mathcal{O} \left(\left(n'\right)^{3}\right) =
